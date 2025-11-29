@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Book Genre Picker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            padding: 40px 20px;
+        }
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .genre-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .genre-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .genre-category {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        .btn-pick {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        .btn-pick:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        .filter-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .form-check-inline {
+            margin: 0 15px;
+        }
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+        .genre-list {
+            max-height: 400px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .genre-list h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .genre-list ul {
+            column-count: 2;
+            column-gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .genre-name {
+                font-size: 2rem;
+            }
+            .genre-list ul {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-card">
+            <h1>📚 Random Book Genre Picker</h1>
+            
+            <div class="filter-section">
+                <h5>Category: Non-Fiction</h5>
+            </div>
+
+            <div class="genre-display" id="genreDisplay">
+                <div class="genre-name" id="genreName">Click below to pick a genre!</div>
+                <div class="genre-category" id="genreCategory"></div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-pick" onclick="pickRandomGenre()">Pick Random Genre</button>
+            </div>
+
+            <div class="genre-list">
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Non-Fiction Genres</h4>
+                        <ul id="nonFictionList"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const fictionGenres = [
+            "Literary Fiction",
+            "Mystery",
+            "Thriller",
+            "Horror",
+            "Romance",
+            "Science Fiction",
+            "Fantasy",
+            "Historical Fiction",
+            "Adventure",
+            "Western",
+            "Crime",
+            "Dystopian",
+            "Young Adult",
+            "Contemporary Fiction",
+            "Magical Realism",
+            "Gothic",
+            "Paranormal",
+            "Urban Fantasy",
+            "Steampunk",
+            "Cyberpunk",
+            "Space Opera",
+            "Military Fiction",
+            "Psychological Thriller",
+            "Cozy Mystery",
+            "Legal Thriller",
+            "Medical Thriller",
+            "Espionage",
+            "Detective Fiction",
+            "Police Procedural",
+            "Noir",
+            "Suspense",
+            "Action & Adventure",
+            "Satire",
+            "Humor",
+            "Chick Lit",
+            "Women's Fiction",
+            "Family Saga",
+            "Coming of Age",
+            "Epistolary",
+            "Picaresque",
+            "Bildungsroman"
+        ];
+
+        const nonFictionGenres = [
+            "Biography",
+            "Autobiography",
+            "Memoir",
+            "History",
+            "Science",
+            "Philosophy",
+            "Psychology",
+            "Self-Help",
+            "True Crime",
+            "Essay",
+            "Journalism",
+            "Travel Writing",
+            "Food & Cooking",
+            "Art & Photography",
+            "Business",
+            "Economics",
+            "Politics",
+            "Current Affairs",
+            "Religion & Spirituality",
+            "Health & Fitness",
+            "Parenting",
+            "Nature & Environment",
+            "Technology",
+            "Mathematics",
+            "Astronomy",
+            "Biology",
+            "Physics",
+            "Chemistry",
+            "Medicine",
+            "Anthropology",
+            "Sociology",
+            "Education",
+            "Linguistics",
+            "Literary Criticism",
+            "Music",
+            "Sports",
+            "Military History",
+            "Social Sciences",
+            "Reference",
+            "Guide & How-to",
+            "Personal Development"
+        ];
+
+        function displayGenreLists() {
+            const nonFictionList = document.getElementById('nonFictionList');
+            nonFictionList.innerHTML = nonFictionGenres.map(g => `<li>${g}</li>`).join('');
+        }
+
+        function pickRandomGenre() {
+            const randomIndex = Math.floor(Math.random() * nonFictionGenres.length);
+            const selectedGenre = nonFictionGenres[randomIndex];
+
+            const genreDisplay = document.getElementById('genreDisplay');
+            genreDisplay.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                document.getElementById('genreName').textContent = selectedGenre;
+                document.getElementById('genreCategory').textContent = 'Non-Fiction';
+                genreDisplay.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        displayGenreLists();
+    </script>
+</body>
+</html>
